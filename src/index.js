@@ -11,7 +11,7 @@ const App = () => (
   <div>
     <div><Navigation /></div>
     <br />
-    <center><h1>Que faire à Paris</h1></center>
+    <center><h1>Que faire à Paris ?</h1></center>
     <br />
     <div><Event /></div>
   </div>
