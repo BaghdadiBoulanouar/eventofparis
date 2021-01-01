@@ -1,22 +1,31 @@
 import React from 'react';
 
-import {
-  Card,
-  Button,
-} from 'react-bootstrap';
+import axios from 'axios';
 
-const Event = () => (
-  <Card style={{ width: '18rem' }}>
-    <Card.Img variant="top" src="holder.js/100px180" />
-    <Card.Body>
-      <Card.Title>Card Title</Card.Title>
-      <Card.Text>
-        Some quick example text to build on the card title and make up the bulk of
-        the cards content.
-      </Card.Text>
-      <Button variant="primary">Go somewhere</Button>
-    </Card.Body>
-  </Card>
-);
+export default class EventList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: [],
+    };
+  }
 
-export default Event;
+  componentDidMount() {
+    axios.get('https://opendata.paris.fr/api/records/1.0/search/?dataset=que-faire-a-paris-')
+      .then((res) => {
+        const events = res.data.records.map(({ fields }) => ({
+          title: fields.title,
+        }));
+        this.setState({ events });
+      });
+  }
+
+  render() {
+    const { events } = this.state;
+    return (
+      <ul>
+        { events.map((event) => <li>{event.title}</li>)}
+      </ul>
+    );
+  }
+}
